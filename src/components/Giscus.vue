@@ -14,7 +14,7 @@ const props = defineProps({
   },
   repoId: {
     type: String,
-    default: 'R_kgDORbvaeA'
+    default: 'R_kgDORcdLiA'
   },
   category: {
     type: String,
@@ -22,7 +22,7 @@ const props = defineProps({
   },
   categoryId: {
     type: String,
-    default: 'DIC_kwDORbvaeM4C3d0G'
+    default: 'DIC_kwDORcdLiM4C3hs9'
   }
 });
 
