@@ -1,7 +1,5 @@
 <template>
   <div class="container mx-auto px-4 py-12">
-    <!-- 测试样式 -->
-    <div class="test-class mb-8">测试样式是否生效</div>
     
     <!-- Hero Section -->
     <section class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-2xl p-12 mb-16 shadow-xl">

@@ -5,7 +5,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/ml-course/',
+  base: './',
   plugins: [
     vue(),
     // 只在构建时使用legacy插件
