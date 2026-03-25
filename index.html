@@ -9,5 +9,18 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      // 检查是否有保存的重定向路径
+      const redirectPath = localStorage.getItem('redirectPath');
+      if (redirectPath) {
+        // 监听Vue Router就绪事件
+        window.addEventListener('vue-router-ready', () => {
+          // 清除保存的路径
+          localStorage.removeItem('redirectPath');
+          // 跳转到保存的路径
+          window.location.href = redirectPath;
+        });
+      }
+    </script>
   </body>
 </html>

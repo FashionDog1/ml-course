@@ -31,16 +31,16 @@
             <span class="text-4xl">👨‍🏫</span>
           </div>
           <div>
-            <h3 class="text-xl font-semibold">张教授</h3>
-            <p class="text-gray-600 mb-2">计算机科学与技术系</p>
+            <h3 class="text-xl font-semibold">F教授</h3>
+            <p class="text-gray-600 mb-2">计算机科学与技术</p>
             <p class="text-gray-700 mb-4">
-              张教授拥有计算机科学博士学位，主要研究方向为机器学习、深度学习和人工智能。在相关领域发表过多篇学术论文，具有丰富的教学和科研经验。
+              大四待业。
             </p>
             <div class="flex space-x-4">
-              <a href="mailto:professor@example.com" class="text-blue-600 hover:text-blue-800 flex items-center">
+              <a href="1290883283@qq.com" class="text-blue-600 hover:text-blue-800 flex items-center">
                 <span class="mr-1">📧</span> 发送邮件
               </a>
-              <a href="https://github.com" target="_blank" class="text-blue-600 hover:text-blue-800 flex items-center">
+              <a href="https://github.com/FashionDog1/ml-course" target="_blank" class="text-blue-600 hover:text-blue-800 flex items-center">
                 <span class="mr-1">💻</span> GitHub
               </a>
             </div>
@@ -54,15 +54,15 @@
         <div class="space-y-4">
           <div class="flex items-center">
             <span class="w-12 text-gray-500">🏫</span>
-            <span class="text-gray-700">计算机科学与技术系，科技楼 501</span>
+            <span class="text-gray-700">男寝101</span>
           </div>
           <div class="flex items-center">
             <span class="w-12 text-gray-500">📧</span>
-            <span class="text-gray-700">course@example.com</span>
+            <span class="text-gray-700">1290883283@qq.com</span>
           </div>
           <div class="flex items-center">
             <span class="w-12 text-gray-500">🕒</span>
-            <span class="text-gray-700">每周二、周四 14:00-16:00</span>
+            <span class="text-gray-700">随时待命</span>
           </div>
         </div>
       </div>
