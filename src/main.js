@@ -12,5 +12,6 @@ app.mount('#app')
 
 // 当路由准备就绪时触发自定义事件
 router.isReady().then(() => {
+  window.__vue_router_ready__ = true
   window.dispatchEvent(new Event('vue-router-ready'))
 })

@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ml-course</title>
-    <script type="module" crossorigin src="/ml-course/assets/index-KrabkyM_.js"></script>
+    <script type="module" crossorigin src="/ml-course/assets/index-Bi-oimJ9.js"></script>
     <link rel="modulepreload" crossorigin href="/ml-course/assets/vendor-DaZvg4X-.js">
     <link rel="modulepreload" crossorigin href="/ml-course/assets/marked-BofuuMdb.js">
     <link rel="stylesheet" crossorigin href="/ml-course/assets/index-BxPbImXw.css">
@@ -15,20 +15,28 @@
   <body>
     <div id="app"></div>
     <script>
-      // 检查是否有保存的重定向路径
-      const redirectPath = localStorage.getItem('redirectPath');
-      if (redirectPath) {
-        // 监听Vue Router就绪事件
-        window.addEventListener('vue-router-ready', () => {
-          // 清除保存的路径
-          localStorage.removeItem('redirectPath');
-          // 跳转到保存的路径
-          window.location.href = redirectPath;
-        });
+      (function() {
+      // 检查是否有需要恢复的路径
+      var redirectPath = sessionStorage.getItem('redirect-path');
+      if (redirectPath && redirectPath !== window.location.pathname) {
+        sessionStorage.removeItem('redirect-path');
+        // 使用 Vue Router 跳转（通过 URL 参数触发）
+        var base = '/你的仓库名/';
+        var newUrl = redirectPath.startsWith(base) ? redirectPath : base + redirectPath.replace(/^\//, '');
+        window.history.replaceState(null, '', newUrl);
+        // 手动触发路由更新（如果 Vue 应用未启动，等待其启动）
+        if (window.__vue_router_ready__) {
+          window.dispatchEvent(new Event('popstate'));
+        } else {
+          window.addEventListener('vue-router-ready', function() {
+            window.dispatchEvent(new Event('popstate'));
+          });
+        }
       }
-    </script>
+    })();
+  </script>
     <script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
     <script nomodule crossorigin id="vite-legacy-polyfill" src="/ml-course/assets/polyfills-legacy-DkSoWoBL.js"></script>
-    <script nomodule crossorigin id="vite-legacy-entry" data-src="/ml-course/assets/index-legacy-B33hdwcW.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
+    <script nomodule crossorigin id="vite-legacy-entry" data-src="/ml-course/assets/index-legacy-Bx68ZQya.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
   </body>
 </html>
