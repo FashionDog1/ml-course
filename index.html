@@ -21,7 +21,7 @@
       if (redirectPath && redirectPath !== window.location.pathname) {
         sessionStorage.removeItem('redirect-path');
         // 使用 Vue Router 跳转（通过 URL 参数触发）
-        var base = '/你的仓库名/';
+        var base = '/ml-course/';
         var newUrl = redirectPath.startsWith(base) ? redirectPath : base + redirectPath.replace(/^\//, '');
         window.history.replaceState(null, '', newUrl);
         // 手动触发路由更新（如果 Vue 应用未启动，等待其启动）
