@@ -2,14 +2,17 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page Not Found</title>
 </head>
 <body>
   <script>
-    // 保存原始路径到localStorage
-    localStorage.setItem('redirectPath', window.location.pathname + window.location.search);
-    // 跳转到根目录
-    window.location.href = '/ml-course/';
+    // 获取当前路径（例如 /ml-course/chapters/introduction）
+    var path = window.location.pathname;
+    // 将路径存入 sessionStorage 或 URL 参数
+    sessionStorage.setItem('redirect-path', path);
+    // 重定向到根目录的 index.html
+    window.location.replace('/你的仓库名/');  // 注意替换仓库名
   </script>
 </body>
 </html>
