@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Page Not Found</title>
+</head>
+<body>
+  <script>
+    // 保存原始路径到localStorage
+    localStorage.setItem('redirectPath', window.location.pathname + window.location.search);
+    // 跳转到根目录
+    window.location.href = '/ml-course/';
+  </script>
+</body>
+</html>
