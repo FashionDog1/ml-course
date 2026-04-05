@@ -14,7 +14,7 @@
           <!-- Desktop Navigation -->
           <div class="hidden md:flex space-x-8">
             <router-link to="/" class="text-gray-700 hover:text-blue-600 font-medium">首页</router-link>
-            <router-link to="/chapters/introduction" class="text-gray-700 hover:text-blue-600 font-medium">课程章节</router-link>
+            <router-link to="/chapters" class="text-gray-700 hover:text-blue-600 font-medium">课程章节</router-link>
             <router-link to="/assignments" class="text-gray-700 hover:text-blue-600 font-medium">作业提交</router-link>
             <router-link to="/visualization" class="text-gray-700 hover:text-blue-600 font-medium">可视化</router-link>
             <router-link to="/about" class="text-gray-700 hover:text-blue-600 font-medium">关于</router-link>
@@ -31,7 +31,7 @@
         <!-- Mobile Navigation Menu -->
         <div v-if="menuOpen" class="md:hidden py-4 space-y-2">
           <router-link to="/" class="block text-gray-700 hover:text-blue-600 font-medium py-2">首页</router-link>
-          <router-link to="/chapters/introduction" class="block text-gray-700 hover:text-blue-600 font-medium py-2">课程章节</router-link>
+          <router-link to="/chapters" class="block text-gray-700 hover:text-blue-600 font-medium py-2">课程章节</router-link>
           <router-link to="/assignments" class="block text-gray-700 hover:text-blue-600 font-medium py-2">作业提交</router-link>
           <router-link to="/visualization" class="block text-gray-700 hover:text-blue-600 font-medium py-2">可视化</router-link>
           <router-link to="/about" class="block text-gray-700 hover:text-blue-600 font-medium py-2">关于</router-link>

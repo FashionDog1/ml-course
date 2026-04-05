@@ -7,7 +7,7 @@
         <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">机器学习课程</h1>
         <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">探索人工智能与机器学习的核心概念和应用，开启您的AI学习之旅</p>
         <div class="flex flex-wrap justify-center gap-6">
-          <router-link to="/chapters/introduction" class="bg-white text-indigo-600 px-8 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
+          <router-link to="/chapters" class="bg-white text-indigo-600 px-8 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl">
             开始学习
           </router-link>
           <router-link to="/assignments" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl font-medium hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1">
@@ -99,7 +99,7 @@
     <section class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-12 text-center shadow-sm">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">准备好开始学习了吗？</h2>
       <p class="text-gray-600 mb-8 max-w-2xl mx-auto">加入我们的机器学习课程，开启您的AI之旅，探索人工智能的无限可能</p>
-      <router-link to="/chapters/introduction" class="bg-black text-white px-10 py-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1 shadow-lg inline-block">
+      <router-link to="/chapters" class="bg-black text-white px-10 py-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1 shadow-lg inline-block">
         开始学习
       </router-link>
     </section>
