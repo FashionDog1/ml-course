@@ -7,9 +7,9 @@
 </head>
 <body>
   <script>
-    // 获取当前路径（例如 /ml-course/chapters/introduction）
-    var path = window.location.pathname;
-    // 将路径存入 sessionStorage 或 URL 参数
+    // 获取当前路径和查询参数
+    var path = window.location.pathname + window.location.search;
+    // 将完整路径（包括查询参数）存入 sessionStorage
     sessionStorage.setItem('redirect-path', path);
     // 重定向到根目录的 index.html
     window.location.replace('/ml-course/'); 
