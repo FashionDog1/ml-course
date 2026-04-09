@@ -56,17 +56,46 @@
         </div>
       </div>
     </footer>
+    <!-- Back to Top Button -->
+    <button 
+      v-if="showBackToTop" 
+      @click="backToTop" 
+      class="fixed bottom-8 right-8 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-50"
+      aria-label="返回顶部"
+    >
+      ↑
+    </button>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const menuOpen = ref(false);
+const showBackToTop = ref(false);
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
+
+function backToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+function handleScroll() {
+  showBackToTop.value = window.scrollY > 300;
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <style>

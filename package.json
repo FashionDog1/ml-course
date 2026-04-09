@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.98.0",
+    "@vue/compiler-sfc": "^3.5.32",
+    "katex": "^0.16.45",
     "marked": "^17.0.3",
+    "vite-plugin-md": "^0.22.5",
     "vue": "^3.5.25",
     "vue-router": "^5.0.3"
   },

@@ -1,0 +1,23 @@
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;多个神经元连接构成神经网络，最常见的一种网络结构为前馈全连接神经网络，也称为多层感知机（Multi-Layer Perception，MLP）或深度神经网络（Deep Neural Network，DNN）。
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个典型的前馈全连接神经网络的结构如图 8-2 所示。在输入层和输出层之间，可能有一个或多个隐含层。前馈全连接神经网络的信息只向前移动，从输入层开始，通过隐藏层，再到输出层，网络中没有任何循环或回路。
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通常用 \( a_i^{(l)} \) 表示第 \( l \) 层第 \( i \) 个神经元的输出，向量 \( \mathbf{a}^{(l)} \) 表示该层所有神经元的输出，\( w_{ij}^{(l)} \) 表示第 \( l-1 \) 层第 \( j \) 个神经元到第 \( l \) 层第 \( i \) 个神经元的连接权重，矩阵 \( \mathbf{W}^{(l)} \) 表示所有第 \( l-1 \) 层神经元到第 \( l \) 层神经元的连接权重，\( b_i^{(l)} \) 表示第 \( l \) 层第 \( i \) 个神经元的偏置，向量 \( \mathbf{b}^{(l)} \) 表示该层所有神经元的偏置，\( z_i^{(l)} \) 表示第 \( l \) 层第 \( i \) 个神经元激活函数的输入，向量 \( \mathbf{z}^{(l)} \) 表示该层所有神经元激活函数的输入，则相邻两层神经元之间的关系为
+
+\[
+a_i^{(l)} = \sum_j w_{ij}^{(l)} h_j^{(l-1)} + b_i^{(l)},
+\]
+\[
+h_i^{(l)} = \sigma(a_i^{(l)}).
+\]
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;式（8-2）写成向量/矩阵形式为
+
+\[
+\mathbf{a}^{(l)} = \mathbf{W}^{(l)} \mathbf{h}^{(l-1)} + \mathbf{b}^{(l)},
+\]
+\[
+\mathbf{h}^{(l)} = \sigma(\mathbf{a}^{(l)}) = \sigma(\mathbf{W}^{(l)} \mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}).
+\]
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为了书写简洁，记 \( \mathbf{h}^{(l)} = \sigma(\mathbf{a}^{(l)}) = [\sigma(a_1^{(l)}), \dots, \sigma(a_{N_l}^{(l)})]^{\mathrm{T}} \)。因此神经网络内部实际上就是矩阵计算。
