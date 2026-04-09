@@ -1,0 +1,1 @@
+System.register([],function(e,n){"use strict";return{execute:function(){e("default","# 6.1 决策树基本原理\n\n## 什么是决策树\n\n决策树是一种基于树结构的监督学习算法，它通过对特征空间进行递归划分来构建模型。决策树可以用于分类和回归任务，是一种直观且易于解释的机器学习算法。")}}});

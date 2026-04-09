@@ -1,0 +1,1 @@
+System.register([],function(n,e){"use strict";return{execute:function(){n("default","# 8.1 神经元的基本结构\n\n## 生物神经元的启发\n\n人工神经网络的灵感来源于生物神经系统，特别是大脑中的神经元。生物神经元是构成神经系统的基本单位，它们通过突触相互连接，形成复杂的网络。\n")}}});
