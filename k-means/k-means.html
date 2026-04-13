@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>k-means clustering</title>
+</head>
+<body>
+<div class="page-layout">
+    <main class="main-content">
+        <article class="article">
+            <!-- ===================== -->
+            <!-- K-MEANS             -->
+            <!-- ===================== -->
+            <section class="algorithm-section" id="kmeans">
+                <div class="viz-card">
+                    <div class="viz-header">
+                        <span class="viz-title">交互式 K 均值算法 — 点击添加数据点</span>
+                        <div class="viz-controls">
+                            <button class="ctrl-btn active" id="km-step">下一步</button>
+                            <button class="ctrl-btn" id="km-run">▶ 自动运行</button>
+                            <button class="ctrl-btn" id="km-reset">↺ 重置</button>
+                            <div class="ctrl-slider">
+                                <label for="km-k">k: <span id="km-k-val">3</span></label>
+                                <input type="range" id="km-k" min="2" max="6" value="3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="viz-canvas-wrap">
+                        <canvas class="viz-canvas" id="km-canvas" width="800" height="400" style="cursor:crosshair"></canvas>
+                    </div>
+                    <div class="viz-footer">
+                        <div class="viz-status"><span class="status-dot"></span> 点击画布添加数据点，然后下一步</div>
+                        <span id="km-info">数据点: 0 | 迭代次数: 0</span>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+</div>
+
+<script src="./visualizations.js"></script>
+<script src="./k-means.js"></script>
+</body>
+</html>

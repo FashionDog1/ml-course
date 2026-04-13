@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic Regression</title>
+    <style>
+        .viz-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+        .ctrl-btn:hover {
+            background: rgba(108,99,255,0.2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .viz-canvas-wrap {
+            position: relative; 
+            background: #060710;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto;
+        }
+        .viz-canvas {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+        .viz-footer {
+            padding: 0 24px;
+            margin-bottom: -15px;
+            font-size: 1rem;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div class="page-layout">
+    <main class="main-content">
+        <article class="article">
+            <!-- ===================== -->
+            <!-- LOGISTIC REGRESSION -->
+            <!-- ===================== -->
+            <section class="algorithm-section" id="logistic-reg">
+                <div class="viz-card">
+                    <div class="viz-header">
+                        <span class="viz-title">⚡ 互动：决策边界 — 点击添加积分</span>
+                        <div class="viz-controls">
+                            <button class="ctrl-btn active" id="log-class0">Class 0 (●)</button>
+                            <button class="ctrl-btn" id="log-class1">Class 1 (▲)</button>
+                            <button class="ctrl-btn" id="log-reset">↺ 重置</button>
+                        </div>
+                    </div>
+                    <div class="viz-canvas-wrap">
+                        <canvas class="viz-canvas" id="logreg-canvas" width="800" height="400" style="cursor:crosshair"></canvas>
+                    </div>
+                    <div class="viz-footer">
+                        <p>决策边界实时更新</p>
+                        <span id="logreg-info">添加积分查看决策边界</span>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+</div>
+<script src="./visualizations.js"></script>
+<script src="./Logistic-Regression.js"></script>
+</body>
+</html>
