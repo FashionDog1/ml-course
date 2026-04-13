@@ -15,7 +15,17 @@
           <div class="hidden md:flex space-x-8">
             <router-link to="/" class="text-gray-700 hover:text-blue-600 font-medium">首页</router-link>
             <router-link to="/chapters" class="text-gray-700 hover:text-blue-600 font-medium">课程章节</router-link>
-            <router-link to="/assignments" class="text-gray-700 hover:text-blue-600 font-medium">作业提交</router-link>
+            <!-- 作业提交二级菜单 -->
+            <div class="relative group">
+              <button class="text-gray-700 hover:text-blue-600 font-medium flex items-center space-x-1">
+                <span>作业提交</span>
+                <span class="text-xs">▼</span>
+              </button>
+              <div class="absolute left-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                <router-link to="/assignments" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">理论作业</router-link>
+                <router-link to="/github-assignments" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">编程作业</router-link>
+              </div>
+            </div>
             <router-link to="/visualization" class="text-gray-700 hover:text-blue-600 font-medium">可视化</router-link>
             <router-link to="/about" class="text-gray-700 hover:text-blue-600 font-medium">关于</router-link>
           </div>
@@ -32,7 +42,17 @@
         <div v-if="menuOpen" class="md:hidden py-4 space-y-2">
           <router-link to="/" class="block text-gray-700 hover:text-blue-600 font-medium py-2">首页</router-link>
           <router-link to="/chapters" class="block text-gray-700 hover:text-blue-600 font-medium py-2">课程章节</router-link>
-          <router-link to="/assignments" class="block text-gray-700 hover:text-blue-600 font-medium py-2">作业提交</router-link>
+          <!-- 作业提交移动端菜单 -->
+          <div>
+            <button @click="toggleAssignmentMenu" class="w-full text-left text-gray-700 hover:text-blue-600 font-medium py-2 flex items-center justify-between">
+              <span>作业提交</span>
+              <span class="text-xs">{{ assignmentMenuOpen ? '▲' : '▼' }}</span>
+            </button>
+            <div v-if="assignmentMenuOpen" class="pl-4 space-y-1 mt-1">
+              <router-link to="/assignments" class="block text-gray-700 hover:text-blue-600 font-medium py-1">理论作业</router-link>
+              <router-link to="/github-assignments" class="block text-gray-700 hover:text-blue-600 font-medium py-1">编程作业</router-link>
+            </div>
+          </div>
           <router-link to="/visualization" class="block text-gray-700 hover:text-blue-600 font-medium py-2">可视化</router-link>
           <router-link to="/about" class="block text-gray-700 hover:text-blue-600 font-medium py-2">关于</router-link>
         </div>
@@ -72,10 +92,19 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
 const menuOpen = ref(false);
+const assignmentMenuOpen = ref(false);
 const showBackToTop = ref(false);
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
+  // 关闭作业菜单当主菜单关闭时
+  if (!menuOpen.value) {
+    assignmentMenuOpen.value = false;
+  }
+}
+
+function toggleAssignmentMenu() {
+  assignmentMenuOpen.value = !assignmentMenuOpen.value;
 }
 
 function backToTop() {

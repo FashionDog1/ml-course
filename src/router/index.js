@@ -21,6 +21,23 @@ const routes = [
     name: 'Assignment',
     component: () => import('../views/Assignment.vue')
   },
+  /*{
+    path: '/github-assignment/:id',
+    name: 'GitHubAssignment',
+    component: () => import('../views/GitHubAssignment.vue'),
+    props: true
+  },*/
+  {
+    path: '/github-assignments',
+    name: 'GitHubAssignments',
+    component: () => import('../views/GitHubAssignments.vue'),
+  },
+  {
+    path: '/github-assignment/:id',
+    name: 'GitHubAssignmentDetail',
+    component: () => import('../views/GitHubAssignmentDetail.vue'),
+    props: true
+  },
   {
     path: '/visualization',
     name: 'Visualization',

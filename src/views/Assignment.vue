@@ -1,7 +1,16 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
-      <h1 class="text-3xl font-bold mb-6">作业提交</h1>
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold">理论作业提交</h1>
+        <router-link 
+          to="/github-assignment/hello-ml" 
+          class="text-blue-600 hover:text-blue-800 font-medium flex items-center space-x-1"
+        >
+          <span>切换至编程作业</span>
+          <span>→</span>
+        </router-link>
+      </div>
       
       <div class="bg-white rounded-lg shadow-md border border-gray-100 p-6">
         <form @submit.prevent="submitAssignment" class="space-y-6">

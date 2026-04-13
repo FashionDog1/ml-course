@@ -1,0 +1,1 @@
+import{c as I}from"./supabase-aUbKEESq.js";const s=I("https://mureufpzatpigcetrkts.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11cmV1ZnB6YXRwaWdjZXRya3RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxOTcxNTgsImV4cCI6MjA4Nzc3MzE1OH0.O-_CLxBYypY6_7MRwMHLpPU70NCr43T-GcYHoomg538");export{s};

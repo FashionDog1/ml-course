@@ -40,4 +40,6 @@ z(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x} =
 $$
 是 $\boldsymbol{x}$ 的线性组合。
 
-在鸢尾花数据集上，取2维特征（花萼长度、花萼宽度），将鸢尾花分成变色鸢尾和非变色鸢尾两类，Logistic回归模型的决策边界为一条直线，表达式为 $11.091899 x_1 - 5.653525 x_2 + 7.038924 = 0$。
+<div style="margin: 10px 0 10px 20px; text-align: center;">
+  <iframe src="/ml-course/Logistic-Regression/Logistic-Regression.html" width="800" height="525" frameborder="0" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
+</div>
