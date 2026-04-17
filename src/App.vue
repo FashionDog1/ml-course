@@ -22,12 +22,15 @@
                 <span class="text-xs">▼</span>
               </button>
               <div class="absolute left-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                <router-link to="/assignments" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">理论作业</router-link>
-                <router-link to="/github-assignments" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">编程作业</router-link>
+                <router-link to="/assignments" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">理论作业提交</router-link>
+                <router-link to="/github-assignments" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">编程作业提交</router-link>
+                <router-link to="/my-submissions" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">作业提交记录</router-link>
               </div>
             </div>
+            <router-link to="/teacher-materials" class="text-gray-700 hover:text-blue-600 font-medium">教学材料</router-link>
             <router-link to="/visualization" class="text-gray-700 hover:text-blue-600 font-medium">可视化</router-link>
             <router-link to="/about" class="text-gray-700 hover:text-blue-600 font-medium">关于</router-link>
+            <git-hub-login />
           </div>
           
           <!-- Mobile Navigation Button -->
@@ -51,10 +54,13 @@
             <div v-if="assignmentMenuOpen" class="pl-4 space-y-1 mt-1">
               <router-link to="/assignments" class="block text-gray-700 hover:text-blue-600 font-medium py-1">理论作业</router-link>
               <router-link to="/github-assignments" class="block text-gray-700 hover:text-blue-600 font-medium py-1">编程作业</router-link>
+              <router-link to="/my-submissions" class="block text-gray-700 hover:text-blue-600 font-medium py-1">作业提交记录</router-link>
             </div>
           </div>
+          <router-link to="/teacher-materials" class="block text-gray-700 hover:text-blue-600 font-medium py-2">教学材料</router-link>
           <router-link to="/visualization" class="block text-gray-700 hover:text-blue-600 font-medium py-2">可视化</router-link>
           <router-link to="/about" class="block text-gray-700 hover:text-blue-600 font-medium py-2">关于</router-link>
+          <git-hub-login />
         </div>
       </div>
     </nav>
@@ -90,6 +96,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import GitHubLogin from './components/GitHubLogin.vue';
 
 const menuOpen = ref(false);
 const assignmentMenuOpen = ref(false);

@@ -37,9 +37,6 @@
               大四待业。
             </p>
             <div class="flex space-x-4">
-              <a href="1290883283@qq.com" class="text-blue-600 hover:text-blue-800 flex items-center">
-                <span class="mr-1">📧</span> 发送邮件
-              </a>
               <a href="https://github.com/FashionDog1/ml-course" target="_blank" class="text-blue-600 hover:text-blue-800 flex items-center">
                 <span class="mr-1">💻</span> GitHub
               </a>

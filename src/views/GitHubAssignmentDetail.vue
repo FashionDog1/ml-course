@@ -47,22 +47,43 @@
         <h2 class="text-xl font-semibold mb-4">Git 与 GitHub Classroom 使用指南</h2>
         <div class="space-y-4">
           <div>
-            <h3 class="font-semibold">1. 接受作业</h3>
-            <p class="text-gray-700 text-sm">点击上面的绿色按钮，在弹出的页面中再次点击 "Accept this assignment" 即可。</p>
+            <h3 class="font-medium text-gray-800 mb-2">1. 接受作业</h3>
+            <p class="bg-gray-900 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">点击上面的绿色按钮，在弹出的页面中再次点击 "Accept this assignment" 即可。</p>
           </div>
           <div>
-            <h3 class="font-semibold">2. 克隆你的作业仓库到本地</h3>
-            <pre class="bg-gray-800 text-green-300 p-3 rounded text-sm overflow-x-auto"><code>git clone 你的作业仓库地址</code></pre>
+            <h3 class="font-medium text-gray-800 mb-2">2. 克隆仓库</h3>
+            <div class="bg-gray-900 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+              git clone 你的仓库链接;
+            </div>
           </div>
           <div>
-            <h3 class="font-semibold">3. 完成作业并提交</h3>
-            <pre class="bg-gray-800 text-green-300 p-3 rounded text-sm overflow-x-auto"><code>git add .
-git commit -m "完成作业"
-git push</code></pre>
+            <h3 class="font-medium text-gray-800 mb-2">3. 进入仓库目录</h3>
+            <div class="bg-gray-900 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+              cd 仓库名称
+            </div>
           </div>
           <div>
-            <h3 class="font-semibold">4. 查看自动评分结果</h3>
-            <p class="text-gray-700 text-sm">提交后，稍等片刻，在你的 GitHub 仓库页面即可看到自动评分的测试结果。</p>
+            <h3 class="font-medium text-gray-800 mb-2">4. 创建并切换到新分支</h3>
+            <div class="bg-gray-900 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+              git checkout -b feature/assignment
+            </div>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-800 mb-2">5. 编写代码</h3>
+            <p class="text-gray-600">完成作业要求的功能，确保代码能够正常运行。</p>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-800 mb-2">6. 提交更改</h3>
+            <div class="bg-gray-900 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+              git add .<br>
+              git commit -m "完成作业"
+            </div>
+          </div>
+          <div>
+            <h3 class="font-medium text-gray-800 mb-2">7. 推送到远程仓库</h3>
+            <div class="bg-gray-900 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+              git push origin feature/assignment
+            </div>
           </div>
         </div>
       </div>
@@ -71,7 +92,7 @@ git push</code></pre>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '../supabase'
 
@@ -85,6 +106,27 @@ const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString('zh-CN')
 }
 
+const hardcodedAssignments = {
+  'hello-ml': {
+    id: 'hello-ml',
+    title: 'Hello ML',
+    description: '第一个机器学习编程作业，熟悉基本的 Git 操作和代码提交流程。',
+    deadline: '2026-04-30',
+    invite_link: 'https://classroom.github.com/a/5-ABWqzz',
+    accepted: 0,
+    submitted: 0
+  },
+  'linear-regression': {
+    id: 'linear-regression',
+    title: '线性回归实现',
+    description: '实现线性回归算法，解决简单的回归问题。',
+    deadline: '2026-05-15',
+    invite_link: 'https://classroom.github.com/a/5-ABWqzz',
+    accepted: 0,
+    submitted: 0
+  }
+}
+
 onMounted(async () => {
   const id = route.params.id
   try {
@@ -94,10 +136,15 @@ onMounted(async () => {
       .eq('id', id)
       .single()
     
-    if (fetchError) throw fetchError
-    assignment.value = data
+    if (fetchError) {
+      console.warn('从 Supabase 获取作业详情失败，使用硬编码数据:', fetchError)
+      assignment.value = hardcodedAssignments[id]
+    } else {
+      assignment.value = data || hardcodedAssignments[id]
+    }
   } catch (err) {
-    error.value = '加载作业详情失败：' + err.message
+    console.error('加载作业详情失败:', err)
+    assignment.value = hardcodedAssignments[id]
   } finally {
     loading.value = false
   }

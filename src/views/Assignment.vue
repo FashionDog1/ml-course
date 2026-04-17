@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between mb-6">
         <h1 class="text-3xl font-bold">理论作业提交</h1>
         <router-link 
-          to="/github-assignment/hello-ml" 
+          to="/github-assignments" 
           class="text-blue-600 hover:text-blue-800 font-medium flex items-center space-x-1"
         >
           <span>切换至编程作业</span>
@@ -12,30 +12,39 @@
         </router-link>
       </div>
       
-      <div class="bg-white rounded-lg shadow-md border border-gray-100 p-6">
+      <!-- 未登录提示 -->
+      <div v-if="!user" class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+        <p class="text-yellow-800 mb-4">请先使用 GitHub 账号登录，以便提交作业。</p>
+        <button 
+          @click="login" 
+          class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition"
+        >
+          使用 GitHub 登录
+        </button>
+      </div>
+
+      <!-- 已登录但未完善资料 -->
+      <div v-else-if="!profile.student_id || !profile.name" class="bg-red-50 border border-red-200 rounded-lg p-6">
+        <p class="text-red-800">您的账户信息不完整，请联系老师补充学号和姓名后再提交作业。</p>
+      </div>
+
+      <!-- 已登录且资料完整 -->
+      <div v-else class="bg-white rounded-lg shadow-md border border-gray-100 p-6">
+        <!-- 显示用户信息（只读） -->
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <span class="text-sm text-gray-500">姓名</span>
+              <p class="font-medium">{{ profile.name }}</p>
+            </div>
+            <div>
+              <span class="text-sm text-gray-500">学号</span>
+              <p class="font-medium">{{ profile.student_id }}</p>
+            </div>
+          </div>
+        </div>
+
         <form @submit.prevent="submitAssignment" class="space-y-6">
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
-            <input 
-              type="text" 
-              id="name" 
-              v-model="form.name" 
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-          </div>
-          
-          <div>
-            <label for="studentId" class="block text-sm font-medium text-gray-700 mb-1">学号</label>
-            <input 
-              type="text" 
-              id="studentId" 
-              v-model="form.studentId" 
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-          </div>
-          
           <div>
             <label for="content" class="block text-sm font-medium text-gray-700 mb-1">作业内容</label>
             <textarea 
@@ -44,6 +53,7 @@
               rows="4" 
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="请输入作业内容或描述"
+              required
             ></textarea>
           </div>
           
@@ -54,7 +64,7 @@
               id="attachment" 
               @change="handleFileChange" 
               class="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              accept=".pdf,.doc,.docx"
+              accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.zip,.rar,.txt"
             >
             <p v-if="file" class="text-sm text-gray-600 mt-1">已选择文件: {{ file.name }}</p>
           </div>
@@ -83,6 +93,9 @@
             <div v-if="success" class="text-green-600 font-medium">
               作业提交成功！
             </div>
+            <div v-if="errorMsg" class="text-red-600 font-medium">
+              {{ errorMsg }}
+            </div>
           </div>
         </form>
       </div>
@@ -91,20 +104,52 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { supabase } from '../supabase';
 
+// 用户状态
+const user = ref(null);
+const profile = ref({ student_id: '', name: '' });
+const loadingProfile = ref(true);
+
+// 表单数据
 const form = ref({
-  name: '',
-  studentId: '',
   content: '',
   attachmentUrl: ''
 });
-
 const file = ref(null);
 const isSubmitting = ref(false);
 const success = ref(false);
+const errorMsg = ref('');
 
+// 登录函数
+const login = async () => {
+  await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.href }
+  });
+};
+
+// 获取当前用户的 profile
+const fetchProfile = async (userId) => {
+  const { data, error } = await supabase
+    .from('user_profiles')
+    .select('student_id, name')
+    .eq('id', userId)
+    .maybeSingle();
+  
+  if (error) {
+    console.error('获取用户资料失败:', error);
+    profile.value = { student_id: '', name: '' };
+  } else if (data) {
+    profile.value = data;
+  } else {
+    profile.value = { student_id: '', name: '' };
+  }
+  loadingProfile.value = false;
+};
+
+// 文件处理
 function handleFileChange(event) {
   const selectedFile = event.target.files[0];
   if (selectedFile) {
@@ -120,9 +165,25 @@ function handleFileChange(event) {
 
 function validateFile(file) {
   const allowedTypes = [
+    // 文档类
     'application/pdf',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    'application/msword',                                      // .doc
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+    // 演示文稿
+    'application/vnd.ms-powerpoint',                           // .ppt
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx
+    // 表格
+    'application/vnd.ms-excel',                                // .xls
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+    // 图片
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    // 压缩包
+    'application/zip',
+    'application/x-rar-compressed',
+    // 文本
+    'text/plain'
   ];
   return allowedTypes.includes(file.type);
 }
@@ -164,62 +225,105 @@ async function uploadFile(file) {
   }
 }
 
+// 提交作业（调用 Edge Function）
 async function submitAssignment() {
   isSubmitting.value = true;
   success.value = false;
+  errorMsg.value = '';
   
   try {
+    // 1. 获取当前 session 和 token
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      errorMsg.value = '请先登录';
+      isSubmitting.value = false;
+      return;
+    }
+    const accessToken = session.access_token;
+  
     let attachmentUrl = form.value.attachmentUrl;
     let originalName = null;
-    
+    // 如果有文件上传，先上传到 Storage
     if (file.value) {
       const uploadResult = await uploadFile(file.value);
       if (uploadResult) {
         attachmentUrl = uploadResult.url;
         originalName = uploadResult.originalName;
+      } else {
+        errorMsg.value = '文件上传失败，请重试';
+        isSubmitting.value = false;
+        return;
       }
     }
-    
-    const { data, error } = await supabase
-      .from('assignments')
-      .insert([{
-        name: form.value.name,
-        student_id: form.value.studentId,
-        content: form.value.content,
-        attachment_url: attachmentUrl,
-        original_name: originalName
-      }]);
-    
-    if (error) {
-      console.error('提交作业失败:', error);
-      alert('提交作业失败，请稍后重试');
-      return;
+
+    // 调用 Edge Function
+    const response = await fetch(
+      'https://mureufpzatpigcetrkts.supabase.co/functions/v1/submit-theory-assignment',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          content: form.value.content,
+          attachment_url: attachmentUrl || null,
+          original_name: originalName || ''
+        })
+      }
+    );
+
+    // 解析响应
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
+    }
+    if (!data.success) {
+      throw new Error(data.error || '提交失败');
     }
     
     success.value = true;
     
     // 重置表单
     form.value = {
-      name: '',
-      studentId: '',
       content: '',
       attachmentUrl: ''
     };
     file.value = null;
+    // 清空文件选择框
+    const fileInput = document.getElementById('attachment');
+    if (fileInput) fileInput.value = '';
     
     // 3秒后清除成功提示
     setTimeout(() => {
       success.value = false;
     }, 3000);
-  } catch (error) {
-    console.error('提交作业失败:', error);
-    alert('提交作业失败，请稍后重试');
+  } catch (err) {
+    console.error('提交作业失败:', err);
+    errorMsg.value = err.message || '提交失败，请稍后重试';
   } finally {
     isSubmitting.value = false;
   }
 }
-</script>
 
-<style scoped>
-/* Assignment component styles */
-</style>
+// 初始化：检查登录状态并获取用户资料
+onMounted(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+  user.value = session?.user || null;
+  if (user.value) {
+    await fetchProfile(user.value.id);
+  } else {
+    loadingProfile.value = false;
+  }
+  
+  // 监听登录状态变化（例如登录后页面刷新）
+  supabase.auth.onAuthStateChange(async (_event, session) => {
+    user.value = session?.user || null;
+    if (user.value) {
+      await fetchProfile(user.value.id);
+    } else {
+      profile.value = { student_id: '', name: '' };
+    }
+  });
+});
+</script>

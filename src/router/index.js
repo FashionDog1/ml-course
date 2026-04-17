@@ -21,12 +21,6 @@ const routes = [
     name: 'Assignment',
     component: () => import('../views/Assignment.vue')
   },
-  /*{
-    path: '/github-assignment/:id',
-    name: 'GitHubAssignment',
-    component: () => import('../views/GitHubAssignment.vue'),
-    props: true
-  },*/
   {
     path: '/github-assignments',
     name: 'GitHubAssignments',
@@ -37,6 +31,16 @@ const routes = [
     name: 'GitHubAssignmentDetail',
     component: () => import('../views/GitHubAssignmentDetail.vue'),
     props: true
+  },
+  {
+    path: '/my-submissions',
+    name: 'MySubmissions',
+    component: () => import('../views/MySubmissions1.vue'),
+  },
+  {
+    path: '/teacher-materials',
+    name: 'TeacherMaterials',
+    component: () => import('../views/TeacherMaterials.vue'),
   },
   {
     path: '/visualization',

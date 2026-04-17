@@ -1,7 +1,15 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">编程作业</h1>
-    
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-bold">编程作业</h1>
+      <router-link 
+        to="/assignments" 
+        class="text-blue-600 hover:text-blue-800 font-medium flex items-center space-x-1"
+      >
+        <span>切换至理论作业</span>
+        <span>→</span>
+      </router-link>
+    </div>
     <div v-if="loading" class="text-center py-12">
       <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       <p class="mt-2 text-gray-600">加载中...</p>
@@ -21,7 +29,7 @@
           </p>
           <div class="flex justify-between items-center text-sm">
             <span class="text-gray-500">
-              📝 已提交：{{ assignment.submitted || 0 }} / {{ assignment.accepted || 0 }}
+              📝 已提交：{{ assignment.accepted || 0 }} / {{ assignment.submitted|| 0 }}
             </span>
             <router-link 
               :to="`/github-assignment/${assignment.id}`"
