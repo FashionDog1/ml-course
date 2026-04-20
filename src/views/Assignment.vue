@@ -106,6 +106,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { supabase } from '../supabase';
+import { validateInput } from '../utils/xss';
+import { checkSubmitRateLimit } from '../utils/rateLimit';
 
 // 用户状态
 const user = ref(null);
@@ -239,6 +241,16 @@ async function submitAssignment() {
       isSubmitting.value = false;
       return;
     }
+    
+    // 2. 检查速率限制
+    try {
+      checkSubmitRateLimit(session.user.id, 'submit_assignment', profile.value.role || 'student');
+    } catch (error) {
+      errorMsg.value = error.message;
+      isSubmitting.value = false;
+      return;
+    }
+    
     const accessToken = session.access_token;
   
     let attachmentUrl = form.value.attachmentUrl;
@@ -266,7 +278,7 @@ async function submitAssignment() {
           'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({
-          content: form.value.content,
+          content: validateInput(form.value.content),
           attachment_url: attachmentUrl || null,
           original_name: originalName || ''
         })

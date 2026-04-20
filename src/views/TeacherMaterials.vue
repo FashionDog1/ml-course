@@ -4,7 +4,7 @@
 
     <!-- 教师发布资料表单（仅教师可见） -->
     <div v-if="isTeacher" class="bg-white rounded-xl border border-gray-200 p-6 mb-8 shadow-sm">
-      <h2 class="text-xl font-semibold mb-4">发布新教学资料</h2>
+      <h2 class="text-xl font-semibold mb-4">发布新资料</h2>
       <form @submit.prevent="publishMaterial" class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">标题 *</label>
@@ -30,6 +30,10 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">附件链接（可选）</label>
           <input v-model="newMaterial.attachmentUrl" type="url" class="w-full border border-gray-300 rounded-lg px-3 py-2" />
         </div>
+        <div class="flex items-center">
+          <input v-model="newMaterial.is_pinned" type="checkbox" id="is_pinned" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+          <label for="is_pinned" class="ml-2 text-sm font-medium text-gray-700">置顶此资料</label>
+        </div>
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">发布</button>
       </form>
     </div>
@@ -40,15 +44,48 @@
       <div v-if="loadingMaterials" class="text-center py-8">加载中...</div>
       <div v-else-if="errorMaterials" class="text-red-600">{{ errorMaterials }}</div>
       <div v-else class="grid gap-5">
-        <div v-for="item in materials" :key="item.id" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition">
+        <div v-for="item in sortedMaterials" :key="item.id" class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition">
           <div class="flex justify-between items-start">
             <div class="flex-1">
-              <h3 class="text-lg font-semibold text-gray-800">{{ item.title }}</h3>
+              <div class="flex items-center gap-2">
+                <span v-if="item.is_pinned" class="inline-block px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs font-medium rounded">置顶</span>
+                <h3 class="text-lg font-semibold text-gray-800">{{ item.title }}</h3>
+              </div>
               <p class="text-gray-600 mt-1">{{ item.description }}</p>
               <p class="text-xs text-gray-400 mt-2">发布于 {{ formatDate(item.created_at) }}</p>
               <a v-if="item.attachment_url" :href="item.attachment_url" target="_blank" class="inline-block mt-3 text-blue-600 hover:text-blue-800 text-sm">📎 下载附件 →</a>
             </div>
+            <div class="flex flex-col items-end gap-2">
+              <button
+                v-if="isTeacher && item.user_id === currentUserId"
+                @click="togglePin(item)"
+                class="text-sm"
+                :class="item.is_pinned ? 'text-yellow-600 hover:text-yellow-800' : 'text-gray-400 hover:text-yellow-600'"
+                :title="item.is_pinned ? '取消置顶' : '置顶'"
+              >
+                {{ item.is_pinned ? '📌 已置顶' : '📍 置顶' }}
+              </button>
+              <button
+                v-if="isTeacher && item.user_id === currentUserId"
+                @click="openDeleteConfirm(item.id)"
+                class="ml-4 text-red-500 hover:text-red-700 text-sm"
+                title="删除"
+              >
+                🗑️ 删除
+              </button>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <!-- 自定义删除确认模态框 -->
+    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="closeDeleteModal">
+      <div class="bg-white rounded-xl shadow-xl p-6 w-96 max-w-full">
+        <h3 class="text-xl font-bold mb-4">确认删除</h3>
+        <p class="text-gray-700 mb-6">确定要删除这份资料吗？删除后无法恢复。</p>
+        <div class="flex justify-end gap-3">
+          <button @click="closeDeleteModal" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">取消</button>
+          <button @click="confirmDelete" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">确认删除</button>
         </div>
       </div>
     </div>
@@ -62,17 +99,36 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { supabase } from '../supabase'
 import Giscus from '../components/Giscus.vue';
+import { validateInput } from '../utils/xss';
+import { checkSubmitRateLimit } from '../utils/rateLimit';
 
 const materials = ref([])
 const loadingMaterials = ref(true)
 const errorMaterials = ref(null)
 const isTeacher = ref(false)
+const currentUserId = ref(null)
 const uploadedFile = ref(null)
+const showDeleteModal = ref(false)
+const pendingDeleteId = ref(null)
 
-const newMaterial = ref({ title: '', content: '', attachmentUrl: '' })
+const sortedMaterials = computed(() => {
+  return [...materials.value].sort((a, b) => {
+    if (a.is_pinned && !b.is_pinned) return -1
+    if (!a.is_pinned && b.is_pinned) return 1
+    return new Date(b.created_at) - new Date(a.created_at)
+  })
+})
+
+const newMaterial = ref({ title: '', content: '', attachmentUrl: '', is_pinned: false })
+
+// 处理资料不完整错误
+const handleProfileIncompleteError = (errorMessage) => {
+  alert('您的个人信息不完整，请联系老师补充学号和姓名后再进行操作。'
+  );
+};
 
 // 日期格式化
 const formatDate = (dateStr) => {
@@ -165,6 +221,15 @@ const publishMaterial = async () => {
   try {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) throw new Error('未登录')
+    
+    // 检查速率限制
+    try {
+      checkSubmitRateLimit(session.user.id, 'publish_material', 'teacher');
+    } catch (error) {
+      alert(error.message);
+      return;
+    }
+    
     let attachmentUrl = newMaterial.value.attachmentUrl || null
     // 如果有上传文件，先上传到 Storage
     if (uploadedFile.value) {
@@ -185,17 +250,23 @@ const publishMaterial = async () => {
           Authorization: `Bearer ${session.access_token}`
         },
         body: JSON.stringify({
-          title: newMaterial.value.title,
-          content: newMaterial.value.content,
-          attachment_url: attachmentUrl || null
+          title: validateInput(newMaterial.value.title),
+          content: validateInput(newMaterial.value.content),
+          attachment_url: attachmentUrl || null,
+          is_pinned: newMaterial.value.is_pinned
         })
       }
     )
     const result = await response.json()
+    if (response.status === 400 && result.error?.includes('incomplete')) {
+      // 用户资料不完整
+      handleProfileIncompleteError(result.error);
+      return;
+    }
     if (!response.ok) throw new Error(result.error)
     alert('发布成功！')
     // 重置表单
-    newMaterial.value = { title: '', content: '', attachmentUrl: '' }
+    newMaterial.value = { title: '', content: '', attachmentUrl: '', is_pinned: false }
     uploadedFile.value = null
     // 清空文件选择框
     const fileInput = document.getElementById('material-attachment')
@@ -206,16 +277,103 @@ const publishMaterial = async () => {
   }
 }
 
-// 获取当前用户角色
-const fetchUserRole = async () => {
+// 获取当前用户角色和ID
+const fetchUserInfo = async () => {
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return
-  const { data: profile } = await supabase.from('user_profiles').select('role').eq('id', session.user.id).single()
+  // 获取用户ID
+  currentUserId.value = session.user.id
+  // 获取角色
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('role')
+    .eq('id', currentUserId.value)
+    .single()
   isTeacher.value = profile?.role === 'teacher'
 }
 
+// 打开删除确认弹窗
+const openDeleteConfirm = (materialId) => {
+  pendingDeleteId.value = materialId
+  showDeleteModal.value = true
+}
+// 关闭弹窗
+const closeDeleteModal = () => {
+  showDeleteModal.value = false
+  pendingDeleteId.value = null
+}
+// 确认删除
+const confirmDelete = async () => {
+  if (!pendingDeleteId.value) return
+  const materialId = pendingDeleteId.value
+  closeDeleteModal() // 先关闭弹窗
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) throw new Error('未登录')
+
+    const response = await fetch(
+      'https://mureufpzatpigcetrkts.supabase.co/functions/v1/delete-teacher-material',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ materialId })
+      }
+    )
+    const result = await response.json()
+    if (!response.ok) throw new Error(result.error)
+
+    // 从本地列表中移除
+    materials.value = materials.value.filter(m => m.id !== materialId)
+    alert('删除成功')
+  } catch (err) {
+    alert('删除失败：' + err.message)
+  }
+}
+
+// 切换置顶状态
+const togglePin = async (item) => {
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) throw new Error('未登录')
+    
+    // 检查速率限制
+    try {
+      checkSubmitRateLimit(session.user.id, 'toggle_pin', 'teacher');
+    } catch (error) {
+      alert(error.message);
+      return;
+    }
+
+    const response = await fetch(
+      'https://mureufpzatpigcetrkts.supabase.co/functions/v1/toggle-pin-material',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ materialId: item.id, is_pinned: !item.is_pinned })
+      }
+    )
+    const result = await response.json()
+    if (!response.ok) throw new Error(result.error)
+
+    // 更新本地数据
+    const index = materials.value.findIndex(m => m.id === item.id)
+    if (index !== -1) {
+      materials.value[index].is_pinned = !item.is_pinned
+    }
+    alert(item.is_pinned ? '已置顶' : '已取消置顶')
+  } catch (err) {
+    alert('操作失败：' + err.message)
+  }
+}
+
 onMounted(async () => {
-  await fetchUserRole()
+  await fetchUserInfo()
   await fetchMaterials()
 })
 

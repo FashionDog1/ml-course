@@ -53,7 +53,7 @@
         </div>
         <div class="h-[550px]">
           <iframe 
-            src="\ml-course\public\k-means\k-means.html" 
+            src="\ml-course\k-means\k-means.html" 
             width="100%" 
             height="100%" 
             frameborder="0" 
@@ -62,7 +62,7 @@
           ></iframe>
         </div>
         <div v-if="errors.kMeans" class="p-4 bg-red-50 border-t border-red-200">
-          <p class="text-red-600 text-sm">资源加载失败，请 <a href="\ml-course\public\k-means\k-means.html" target="_blank" class="text-blue-600 underline">在新窗口打开</a></p>
+          <p class="text-red-600 text-sm">资源加载失败，请 <a href="\ml-course\k-means\k-means.html" target="_blank" class="text-blue-600 underline">在新窗口打开</a></p>
         </div>
       </div>
       

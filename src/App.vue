@@ -57,7 +57,7 @@
               <router-link to="/my-submissions" class="block text-gray-700 hover:text-blue-600 font-medium py-1">作业提交记录</router-link>
             </div>
           </div>
-          <router-link to="/teacher-materials" class="block text-gray-700 hover:text-blue-600 font-medium py-2">教学材料</router-link>
+          <router-link to="/teacher-materials" class="block text-gray-700 hover:text-blue-600 font-medium py-2">教学资料与讨论</router-link>
           <router-link to="/visualization" class="block text-gray-700 hover:text-blue-600 font-medium py-2">可视化</router-link>
           <router-link to="/about" class="block text-gray-700 hover:text-blue-600 font-medium py-2">关于</router-link>
           <git-hub-login />
@@ -97,10 +97,33 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import GitHubLogin from './components/GitHubLogin.vue';
+import { supabase } from './supabase'
 
 const menuOpen = ref(false);
 const assignmentMenuOpen = ref(false);
 const showBackToTop = ref(false);
+
+// 检查资料完整性
+const checkProfileCompleteness = async (userId) => {
+  const { data, error } = await supabase
+    .from('user_profiles')
+    .select('student_id, name')
+    .eq('id', userId)
+    .single()
+
+  if (error || !data || !data.student_id || !data.name) {
+    alert('您的个人信息不完整（学号或姓名缺失），请联系老师补充后再使用完整功能。')
+  }
+}
+
+// 设置登录状态监听
+const setupAuthListener = () => {
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session?.user) {
+      checkProfileCompleteness(session.user.id)
+    }
+  })
+}
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
@@ -127,6 +150,7 @@ function handleScroll() {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  setupAuthListener()
 });
 
 onUnmounted(() => {

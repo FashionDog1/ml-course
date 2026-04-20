@@ -31,7 +31,7 @@
                   <p class="text-sm text-gray-500 mt-1">
                     提交时间：{{ formatDate(sub.submitted_at) }}
                   </p>
-                  <p v-if="isTeacher && sub.student?.name" class="text-sm text-gray-500">
+                  <p v-if="isTeacher && sub.student?.name" class="text-sm text-gray-500 mt-1">
                     提交人：{{ sub.student?.name }} ({{ sub.student?.student_id }})
                   </p>
                   <p class="text-sm text-gray-500">
@@ -43,6 +43,9 @@
                     >
                       批改
                     </button>
+                  </p>
+                  <p v-if="sub.grade !== null" class="text-sm text-gray-500 mt-1">
+                    评语：{{ sub.teacher_comment ?? '教师未评语' }}
                   </p>
                 </div>
                 <a
@@ -95,8 +98,8 @@
             >
               <div class="flex justify-between items-start">
                 <div class="flex-1">
-                  <p class="text-gray-700 mt-2 line-clamp-3">
-                    作业描述：{{ sub.content }}
+                  <p class="text-lg font-semibold text-gray-800">
+                    作业描述：{{ validateInput(sub.content) }}
                   </p>
                   <p class="text-sm text-gray-500 mt-1">
                     提交时间：{{ formatDate(sub.submitted_at) }}
@@ -104,15 +107,28 @@
                   <p v-if="isTeacher && sub.name" class="text-sm text-gray-500 mt-1">
                     提交人：{{ sub.name }} ({{ sub.student_id }})
                   </p>
-                  <a
+                  <p class="text-sm text-gray-500 mt-1">
+                    成绩：{{ sub.grade ?? '待批改' }}
+                    <button
+                      v-if="isTeacher && sub.grade === null"
+                      @click="openGradeModal(sub, 'theory')"
+                      class="ml-2 text-blue-600 hover:text-blue-800 text-xs underline"
+                    >
+                      批改
+                    </button>
+                  </p>
+                  <p v-if="sub.grade !== null" class="text-sm text-gray-500 mt-1">
+                    评语：{{ sub.teacher_comment ?? '教师未评语' }}
+                  </p>
+                </div>
+                <a
                     v-if="sub.attachment_url"
                     :href="sub.attachment_url"
                     target="_blank"
-                    class="text-blue-600 hover:text-blue-800 text-sm mt-2 inline-block"
+                    class="text-blue-600 hover:text-blue-800 text-sm ml-4"
                   >
                     查看附件 →
-                  </a>
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -136,15 +152,26 @@
     <!-- 批改模态框 -->
     <div v-if="showGradeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="closeModal">
       <div class="bg-white rounded-xl shadow-xl p-6 w-96 max-w-full">
-        <h3 class="text-xl font-bold mb-4">批改编程作业</h3>
+        <h3 class="text-xl font-bold mb-4">
+          {{ selectedSubmissionType === 'coding' ? '批改编程作业' : '批改理论作业' }}
+        </h3>
         <div class="space-y-3">
           <div>
             <label class="block text-sm font-medium text-gray-700">学生</label>
-            <p class="text-gray-900">{{ selectedSubmission?.name }} ({{ selectedSubmission?.student_id }})</p>
+            <p class="text-gray-900">
+              {{ selectedSubmission?.name }} ({{ selectedSubmission?.student_id }})
+            </p>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700">作业</label>
-            <p class="text-gray-900">{{ selectedSubmission?.github_assignments?.title || selectedSubmission?.assignment_slug }}</p>
+            <p class="text-gray-900">
+              <span v-if="selectedSubmissionType === 'coding'">
+                {{ selectedSubmission?.github_assignments?.title || selectedSubmission?.assignment_slug }}
+              </span>
+              <span v-else>
+                {{ (selectedSubmission?.content || '').substring(0, 50) }}...
+              </span>
+            </p>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700">成绩 (0-100)</label>
@@ -155,6 +182,15 @@
               max="100" 
               class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
             />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">评语</label>
+            <textarea 
+              v-model="teacherCommentInput" 
+              rows="3" 
+              class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="请输入评语..."
+            ></textarea>
           </div>
         </div>
         <div class="flex justify-end gap-3 mt-6">
@@ -171,6 +207,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '../supabase'
+import { validateInput } from '../utils/xss';
+import { checkSubmitRateLimit } from '../utils/rateLimit';
 
 // 状态
 const codingSubmissions = ref([])
@@ -181,10 +219,17 @@ const errorCoding = ref(null)
 const errorTheory = ref(null)
 const isTeacher = ref(false)
 
+// 处理资料不完整错误
+const handleProfileIncompleteError = (errorMessage) => {
+  alert('您的个人信息不完整，请联系老师补充学号和姓名后再进行操作。');
+};
+
 // 批改相关状态
 const showGradeModal = ref(false)
 const selectedSubmission = ref(null)
+const selectedSubmissionType = ref('coding') // 'coding' 或 'theory'
 const gradeInput = ref(0)
+const teacherCommentInput = ref('')
 const submittingGrade = ref(false)
 
 // 分页状态
@@ -249,6 +294,12 @@ const fetchCodingSubmissions = async () => {
       }
     )
     const result = await response.json()
+    if (response.status === 400 && result.error?.includes('incomplete')) {
+      // 用户资料不完整
+      handleProfileIncompleteError(result.error);
+      codingSubmissions.value = [];
+      return;
+    }
     if (!response.ok) throw new Error(result.error)
     codingSubmissions.value = result.data || []
     isTeacher.value = result.role === 'teacher'
@@ -279,6 +330,12 @@ const fetchTheorySubmissions = async () => {
       }
     )
     const result = await response.json()
+    if (response.status === 400 && result.error?.includes('incomplete')) {
+      // 用户资料不完整
+      handleProfileIncompleteError(result.error);
+      theorySubmissions.value = [];
+      return;
+    }
     if (!response.ok) throw new Error(result.error)
     theorySubmissions.value = result.data || []
     if (result.role) isTeacher.value = result.role === 'teacher'
@@ -290,9 +347,11 @@ const fetchTheorySubmissions = async () => {
 }
 
 // 打开批改弹窗
-const openGradeModal = (submission) => {
+const openGradeModal = (submission, type) => {
   selectedSubmission.value = submission
+  selectedSubmissionType.value = type
   gradeInput.value = submission.grade ?? 0
+  teacherCommentInput.value = submission.teacher_comment ?? ''
   showGradeModal.value = true
 }
 
@@ -300,7 +359,9 @@ const openGradeModal = (submission) => {
 const closeModal = () => {
   showGradeModal.value = false
   selectedSubmission.value = null
+  selectedSubmissionType.value = null
   gradeInput.value = 0
+  teacherCommentInput.value = ''
 }
 
 // 提交批改
@@ -313,6 +374,15 @@ const submitGrade = async () => {
   try {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) throw new Error('未登录')
+    
+    // 检查速率限制
+    try {
+      checkSubmitRateLimit(session.user.id, 'grade_submission', 'teacher');
+    } catch (error) {
+      alert(error.message);
+      submittingGrade.value = false;
+      return;
+    }
 
     const response = await fetch(
       'https://mureufpzatpigcetrkts.supabase.co/functions/v1/update-submission-grade',
@@ -324,17 +394,32 @@ const submitGrade = async () => {
         },
         body: JSON.stringify({
           submissionId: selectedSubmission.value.id,
-          grade: gradeInput.value
+          grade: gradeInput.value,
+          teacherComment: teacherCommentInput.value,
+          type: selectedSubmissionType.value
         })
       }
     )
     const result = await response.json()
+    if (response.status === 400 && result.error?.includes('incomplete')) {
+      // 用户资料不完整
+      handleProfileIncompleteError(result.error);
+      return;
+    }
     if (!response.ok) throw new Error(result.error)
-
     // 更新本地数据
-    const index = codingSubmissions.value.findIndex(s => s.id === selectedSubmission.value.id)
-    if (index !== -1) {
-      codingSubmissions.value[index].grade = gradeInput.value
+    if (selectedSubmissionType.value === 'coding') {
+      const index = codingSubmissions.value.findIndex(s => s.id === selectedSubmission.value.id)
+      if (index !== -1) {
+        codingSubmissions.value[index].grade = gradeInput.value
+        codingSubmissions.value[index].teacher_comment = teacherCommentInput.value
+      }
+    } else {
+      const index = theorySubmissions.value.findIndex(s => s.id === selectedSubmission.value.id)
+      if (index !== -1) {
+        theorySubmissions.value[index].grade = gradeInput.value
+        theorySubmissions.value[index].teacher_comment = teacherCommentInput.value
+      }
     }
     closeModal()
     alert('批改成功')
