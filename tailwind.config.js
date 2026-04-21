@@ -1,19 +1,15 @@
-import lineClamp from '@tailwindcss/line-clamp'
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.vue",
-    "./src/**/*.js",
-    "./src/**/*.ts",
-    "./src/**/*.jsx",
-    "./src/**/*.tsx",
+    './index.html',
+    './src/**/*.vue',
+    './src/**/*.js',
+    './src/**/*.ts',
+    './src/**/*.jsx',
+    './src/**/*.tsx',
   ],
   theme: {
     extend: {},
   },
-  plugins: [
-    lineClamp,
-  ],
-}
+  plugins: [],
+};

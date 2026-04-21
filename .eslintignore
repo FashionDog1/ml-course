@@ -1,0 +1,7 @@
+dist/
+node_modules/
+public/
+.DS_Store
+*.local
+*.config.js
+*.config.cjs

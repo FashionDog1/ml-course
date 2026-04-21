@@ -8,7 +8,7 @@
 
 ![1-3.jpg](https://img.cdn1.vip/i/69d7954e39b92_1775736142.webp)
 
-&emsp;&emsp;令在留出第 $ k $ 折的数据上训练的模型 在第 $ k $ 折的验证数据集上的训练误差为 $ e\_k $，则 $ K $ 折交叉验证得到的测试误差估计为：
+&emsp;&emsp;令在留出第 $ k $ 折的数据上训练的模型 在第 $ k $ 折的验证数据集上的训练误差为 $ e_k $，则 $ K $ 折交叉验证得到的测试误差估计为：
 
 $$
 e = \frac{1}{K} \sum\_{k=1}^{K} e\_k
@@ -17,7 +17,7 @@ $$
 &emsp;&emsp;另外，当找到最佳超参数后，还需要用全体训练数据再次训练模型，这样，这个模型才是最终对测试集做预测的模型。
 
 &emsp;&emsp;在与时间有关的应用中，验证集最好按照时间拆分。例如，评估的时候选取一个时间点，用在这个时间点之前的数据做训练，在这个时间点之后的数据做预测。这样更接近真实应用场景中我们根据历史数据预测未来的情况。
-    <p style="text-align:center;color:green;">**[K折交叉验证可视化（interactive-ml网站）](https://www.interactive-ml.com/k-fold-cross-validation.html)**</p>
+<p style="text-align:center;color:green;">**[K折交叉验证可视化（interactive-ml网站）](https://www.interactive-ml.com/k-fold-cross-validation.html)**</p>
 
 ## 例1-4：在鸢尾花分类数据集上寻找最佳的K近邻分类模型超参数
 

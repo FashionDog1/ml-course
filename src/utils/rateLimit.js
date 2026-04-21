@@ -18,19 +18,19 @@ class RateLimiter {
   check(key, limit) {
     const now = Date.now();
     const lastAction = this.actions.get(key);
-    
+
     if (!lastAction) {
       // 第一次操作，记录时间戳
       this.actions.set(key, now);
       return true;
     }
-    
+
     if (now - lastAction >= limit) {
       // 超过时间限制，更新时间戳
       this.actions.set(key, now);
       return true;
     }
-    
+
     // 未超过时间限制，不允许操作
     return false;
   }
@@ -64,11 +64,11 @@ export const rateLimiter = new RateLimiter();
 export function checkSubmitRateLimit(userId, action, role) {
   const key = `${userId}:${action}`;
   const limit = role === 'teacher' ? 5000 : 30000; // 教师5秒，学生30秒
-  
+
   if (!rateLimiter.check(key, limit)) {
     const timeLeft = Math.ceil((limit - (Date.now() - rateLimiter.actions.get(key))) / 1000);
     throw new Error(`操作过于频繁，请${timeLeft}秒后再试`);
   }
-  
+
   return true;
 }

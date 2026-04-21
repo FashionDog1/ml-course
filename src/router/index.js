@@ -4,22 +4,22 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home.vue'),
   },
   {
     path: '/chapters',
     name: 'Chapters',
-    component: () => import('../views/Chapters.vue')
+    component: () => import('../views/Chapters.vue'),
   },
   {
     path: '/chapters/:id/:subId?',
     name: 'Chapter',
-    component: () => import('../views/Chapter.vue')
+    component: () => import('../views/Chapter.vue'),
   },
   {
     path: '/assignments',
     name: 'Assignment',
-    component: () => import('../views/Assignment.vue')
+    component: () => import('../views/Assignment.vue'),
   },
   {
     path: '/github-assignments',
@@ -30,7 +30,7 @@ const routes = [
     path: '/github-assignment/:id',
     name: 'GitHubAssignmentDetail',
     component: () => import('../views/GitHubAssignmentDetail.vue'),
-    props: true
+    props: true,
   },
   {
     path: '/my-submissions',
@@ -45,18 +45,18 @@ const routes = [
   {
     path: '/visualization',
     name: 'Visualization',
-    component: () => import('../views/Visualization.vue')
+    component: () => import('../views/Visualization.vue'),
   },
   {
     path: '/about',
     name: 'About',
-    component: () => import('../views/About.vue')
-  }
+    component: () => import('../views/About.vue'),
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
 });
 
 export default router;

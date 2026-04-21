@@ -7,23 +7,25 @@
  */
 export function sanitizeHtml(input) {
   if (!input) return '';
-  
+
   // 基本的HTML标签过滤
-  return input
-    // 移除<script>标签
-    .replace(/<script[^>]*>.*?<\/script>/gi, '')
-    // 移除<iframe>标签
-    .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
-    // 移除事件处理器
-    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-    // 移除javascript:链接
-    .replace(/javascript:[^"']*/gi, '')
-    // 转义特殊字符
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return (
+    input
+      // 移除<script>标签
+      .replace(/<script[^>]*>.*?<\/script>/gi, '')
+      // 移除<iframe>标签
+      .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
+      // 移除事件处理器
+      .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+      // 移除javascript:链接
+      .replace(/javascript:[^"']*/gi, '')
+      // 转义特殊字符
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
+  );
 }
 
 /**

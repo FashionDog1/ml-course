@@ -1,18 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Not Found</title>
-</head>
-<body>
-  <script>
-    // 获取当前路径和查询参数
-    var path = window.location.pathname + window.location.search;
-    // 将完整路径（包括查询参数）存入 sessionStorage
-    sessionStorage.setItem('redirect-path', path);
-    // 重定向到根目录的 index.html
-    window.location.replace('/ml-course/'); 
-  </script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Not Found</title>
+  </head>
+  <body>
+    <script>
+      // 获取当前路径和查询参数
+      var path = window.location.pathname + window.location.search;
+      // 将完整路径（包括查询参数）存入 sessionStorage
+      sessionStorage.setItem('redirect-path', path);
+      // 重定向到根目录的 index.html
+      window.location.replace('/ml-course/');
+    </script>
+  </body>
 </html>

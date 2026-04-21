@@ -1,33 +1,55 @@
 <template>
   <div class="giscus-container">
-    <div id="giscus-container"></div>
+    <div id="giscus-container" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+/**
+ * Giscus 评论组件
+ * 基于 GitHub Discussions 的评论系统
+ * @component
+ */
+import { onMounted } from 'vue';
 
+/**
+ * Giscus 配置属性
+ * @typedef {Object} GiscusProps
+ * @property {string} repo - GitHub 仓库名称
+ * @property {string} repoId - GitHub 仓库 ID
+ * @property {string} category - 讨论分类名称
+ * @property {string} categoryId - 讨论分类 ID
+ */
+
+/**
+ * 组件属性
+ * @type {GiscusProps}
+ */
 const props = defineProps({
   repo: {
     type: String,
-    default: 'FashionDog1/ml-course'
+    default: 'FashionDog1/ml-course',
   },
   repoId: {
     type: String,
-    default: 'R_kgDORcdLiA'
+    default: 'R_kgDORcdLiA',
   },
   category: {
     type: String,
-    default: 'Q&A'
+    default: 'Q&A',
   },
   categoryId: {
     type: String,
-    default: 'DIC_kwDORcdLiM4C3hs9'
-  }
+    default: 'DIC_kwDORcdLiM4C3hs9',
+  },
 });
 
+/**
+ * 组件挂载时初始化 Giscus 评论系统
+ * 动态创建 Giscus 脚本并配置评论功能
+ * @生命周期钩子
+ */
 onMounted(() => {
-  // 动态创建Giscus脚本标签
   if (typeof window !== 'undefined') {
     const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
@@ -44,12 +66,12 @@ onMounted(() => {
     script.setAttribute('data-lang', 'zh-CN');
     script.setAttribute('crossorigin', 'anonymous');
     script.async = true;
-    
+
     const container = document.getElementById('giscus-container');
     if (container) {
       container.appendChild(script);
     }
-    
+
     window.addEventListener('message', (event) => {
       if (event.origin === 'https://giscus.app' && event.data.type === 'GISCUS_LOADED') {
         console.log('Giscus评论系统已加载');

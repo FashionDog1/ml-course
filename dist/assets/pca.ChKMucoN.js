@@ -1,0 +1,1 @@
+const n="# 10.1 主成分分析\n\n## 什么是主成分分析\n\n主成分分析（Principal Component Analysis，PCA）是一种常用的降维技术，它通过线性变换将高维数据映射到低维空间，同时保留数据的主要信息。PCA的目标是找到一组正交的主成分，这些主成分能够最大限度地解释数据的方差。\n";export{n as default};
