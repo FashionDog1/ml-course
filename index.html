@@ -5,39 +5,41 @@
     <link rel="icon" type="image/svg+xml" href="vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ml-course</title>
-    <script type="module" crossorigin src="/ml-course/assets/index-BVHewHMP.js"></script>
-    <link rel="modulepreload" crossorigin href="/ml-course/assets/vendor-DA7Ne5jX.js">
-    <link rel="modulepreload" crossorigin href="/ml-course/assets/supabase-EqO8yeBu.js">
-    <link rel="modulepreload" crossorigin href="/ml-course/assets/marked-BofuuMdb.js">
-    <link rel="stylesheet" crossorigin href="/ml-course/assets/index-CgOGAiz7.css">
+    <script type="module" crossorigin src="/ml-course/assets/index.DZpoopWb.js"></script>
+    <link rel="modulepreload" crossorigin href="/ml-course/assets/vendor.B7z6cRsS.js">
+    <link rel="modulepreload" crossorigin href="/ml-course/assets/supabase.CbWSNiIj.js">
+    <link rel="modulepreload" crossorigin href="/ml-course/assets/marked.6iblYpTe.js">
+    <link rel="stylesheet" crossorigin href="/ml-course/assets/index.B9hmy0qb.css">
     <script type="module">import.meta.url;import("_").catch(()=>1);(async function*(){})().next();window.__vite_is_modern_browser=true</script>
     <script type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy chunks, syntax error above and the same error below should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
   </head>
   <body>
     <div id="app"></div>
     <script>
-      (function() {
-      // 检查是否有需要恢复的路径
-      var redirectPath = sessionStorage.getItem('redirect-path');
-      if (redirectPath && redirectPath !== window.location.pathname) {
-        sessionStorage.removeItem('redirect-path');
-        // 使用 Vue Router 跳转（通过 URL 参数触发）
-        var base = '/ml-course/';
-        var newUrl = redirectPath.startsWith(base) ? redirectPath : base + redirectPath.replace(/^\//, '');
-        window.history.replaceState(null, '', newUrl);
-        // 手动触发路由更新（如果 Vue 应用未启动，等待其启动）
-        if (window.__vue_router_ready__) {
-          window.dispatchEvent(new Event('popstate'));
-        } else {
-          window.addEventListener('vue-router-ready', function() {
+      (function () {
+        // 检查是否有需要恢复的路径
+        var redirectPath = sessionStorage.getItem('redirect-path');
+        if (redirectPath && redirectPath !== window.location.pathname) {
+          sessionStorage.removeItem('redirect-path');
+          // 使用 Vue Router 跳转（通过 URL 参数触发）
+          var base = '/ml-course/';
+          var newUrl = redirectPath.startsWith(base)
+            ? redirectPath
+            : base + redirectPath.replace(/^\//, '');
+          window.history.replaceState(null, '', newUrl);
+          // 手动触发路由更新（如果 Vue 应用未启动，等待其启动）
+          if (window.__vue_router_ready__) {
             window.dispatchEvent(new Event('popstate'));
-          });
+          } else {
+            window.addEventListener('vue-router-ready', function () {
+              window.dispatchEvent(new Event('popstate'));
+            });
+          }
         }
-      }
-    })();
-  </script>
+      })();
+    </script>
     <script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
-    <script nomodule crossorigin id="vite-legacy-polyfill" src="/ml-course/assets/polyfills-legacy-DkSoWoBL.js"></script>
-    <script nomodule crossorigin id="vite-legacy-entry" data-src="/ml-course/assets/index-legacy-B-eUksMS.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
+    <script nomodule crossorigin id="vite-legacy-polyfill" src="/ml-course/assets/polyfills-legacy.DkSoWoBL.js"></script>
+    <script nomodule crossorigin id="vite-legacy-entry" data-src="/ml-course/assets/index-legacy.DZvtkIzl.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
   </body>
 </html>

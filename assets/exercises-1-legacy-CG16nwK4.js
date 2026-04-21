@@ -1,1 +1,0 @@
-System.register([],function(e,n){"use strict";return{execute:function(){e("default","## 1.7 习题\n\n1. 对例 1-4 中的 Iris 数据集，请用留一交叉验证（交叉验证的折数为训练样本数目）选择 KNN 模型中最佳的超参数 K。\n\n2. 对例 2-1 中的广告数据集，请用 10 折交叉验证选择 KNN 模型中最佳的超参数 K。注意，这是一个回归问题，模型指标可用均方误差。")}}});

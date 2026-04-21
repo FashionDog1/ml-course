@@ -1,0 +1,1 @@
+System.register([],function(n,t){"use strict";return{execute:function(){n("default","# 9.1 梯度计算：反向传播\n\n## 什么是反向传播\n\n反向传播（Backpropagation）是一种用于计算神经网络中各参数梯度的算法，它是神经网络训练的核心。反向传播通过链式法则，从输出层开始，反向计算每一层的梯度，从而更新网络参数。\n")}}});
