@@ -444,8 +444,9 @@ const handleOverrideSubmit = async () => {
     alert('请选择要覆盖的提交记录');
     return;
   }
+  const submissionId = selectedSubmissionId.value;
   closeOverrideModal();
-  await performSubmit(true);
+  await performSubmit(true, submissionId);
 };
 
 /**
@@ -454,7 +455,7 @@ const handleOverrideSubmit = async () => {
  * @param {boolean} [isOverride] - 是否为覆盖提交
  * @returns {Promise<void>}
  */
-const performSubmit = async (isOverride) => {
+const performSubmit = async (isOverride, submissionId) => {
   isSubmitting.value = true;
   success.value = false;
   errorMsg.value = '';
@@ -496,8 +497,8 @@ const performSubmit = async (isOverride) => {
       attachment_url: attachmentUrl || null,
       original_name: originalName || '',
     };
-    if (isOverride) {
-      body.submission_id = selectedSubmissionId.value;
+    if (isOverride && submissionId) {
+      body.submission_id = submissionId;
     }
 
     const response = await fetch(
