@@ -1,26 +1,25 @@
 <template>
   <div class="container mx-auto px-4 py-12">
-    <!-- Hero Section -->
-    <section
-      class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-2xl p-6 sm:p-12 mb-16 shadow-xl"
-    >
+    <!-- Hero 区域 -->
+    <section class="bg-blue-500 text-white rounded-xl p-6 sm:p-12 mb-16 shadow-sm relative overflow-hidden">
+      <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('img/hero.png');"></div>
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 tracking-tight">
           机器学习课程
         </h1>
-        <p class="text-base sm:text-xl md:text-2xl mb-8 opacity-90 max-w-2xl mx-auto">
-          探索人工智能与机器学习的核心概念和应用，开启您的AI学习之旅
+        <p class="text-base sm:text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+          一站式学习平台：课程内容、作业提交、教学资料、可视化演示、师生讨论
         </p>
         <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
           <router-link
             to="/chapters"
-            class="bg-white text-indigo-600 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
+            class="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-50 transition duration-200"
           >
             开始学习
           </router-link>
           <router-link
             to="/assignments"
-            class="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-medium hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1"
+            class="bg-transparent border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-white/10 transition duration-200"
           >
             作业提交
           </router-link>
@@ -28,167 +27,155 @@
       </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- 功能卡片区（6个核心模块） -->
     <section class="mb-20">
       <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-          课程特色
-        </h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">平台功能</h2>
         <p class="text-gray-600 max-w-2xl mx-auto">
-          我们的课程融合了理论与实践，为您提供全方位的机器学习学习体验
+          从学习到实践，从交流到反馈，全方位支持您的机器学习学习之旅
         </p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-        <div
-          class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-gray-50 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2"
-        >
-          <div
-            class="bg-gradient-to-br from-indigo-100 to-purple-100 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-6"
-          >
-            <div class="text-indigo-600 text-3xl sm:text-4xl">
-              📚
-            </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 课程内容 -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-sm transition">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+            <span class="text-blue-600 text-2xl">📖</span>
           </div>
-          <h3 class="text-lg sm:text-xl font-semibold mb-3">
-            丰富的学习内容
-          </h3>
-          <p class="text-gray-600 leading-relaxed">
-            涵盖机器学习的核心概念、算法和应用，配有详细的讲解和示例，帮助您建立扎实的知识基础。
+          <h3 class="text-lg font-semibold mb-2">系统化课程内容</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            结构化的章节设计，Markdown 格式呈现，支持数学公式和代码高亮，每个章节底部集成 Giscus 讨论区。
           </p>
+          <router-link to="/chapters" class="text-blue-600 text-sm font-medium mt-3 inline-block hover:underline">
+            浏览课程 →
+          </router-link>
         </div>
-        <div
-          class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-gray-50 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2"
-        >
-          <div
-            class="bg-gradient-to-br from-blue-100 to-cyan-100 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-6"
-          >
-            <div class="text-blue-600 text-3xl sm:text-4xl">
-              🔬
-            </div>
+        <!-- 理论作业 -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-sm transition">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+            <span class="text-blue-600 text-2xl">📝</span>
           </div>
-          <h3 class="text-lg sm:text-xl font-semibold mb-3">
-            交互式可视化
-          </h3>
-          <p class="text-gray-600 leading-relaxed">
-            通过TensorFlow
-            Playground等工具，直观理解机器学习算法的工作原理，让抽象概念变得清晰易懂。
+          <h3 class="text-lg font-semibold mb-2">理论作业提交</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            在线提交作业内容与附件（支持多种格式），支持覆盖未批改记录，教师可在线批改并给与评语。
           </p>
+          <router-link to="/assignments" class="text-blue-600 text-sm font-medium mt-3 inline-block hover:underline">
+            提交作业 →
+          </router-link>
         </div>
-        <div
-          class="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-gray-50 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2"
-        >
-          <div
-            class="bg-gradient-to-br from-pink-100 to-red-100 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-4 sm:mb-6"
-          >
-            <div class="text-pink-600 text-3xl sm:text-4xl">
-              💬
-            </div>
+        <!-- 编程作业 -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-sm transition">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+            <span class="text-blue-600 text-2xl">💻</span>
           </div>
-          <h3 class="text-lg sm:text-xl font-semibold mb-3">
-            师生互动
-          </h3>
-          <p class="text-gray-600 leading-relaxed">
-            集成Giscus评论系统，方便学生在每节课下留言讨论，促进师生交流，营造活跃的学习社区。
+          <h3 class="text-lg font-semibold mb-2">编程作业（GitHub Classroom）</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            集成 GitHub Classroom，学生接受作业邀请、克隆仓库、提交代码，自动评分，教师在线批改。
           </p>
+          <router-link to="/github-assignments" class="text-blue-600 text-sm font-medium mt-3 inline-block hover:underline">
+            查看作业 →
+          </router-link>
+        </div>
+        <!-- 作业提交记录 -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-sm transition">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+            <span class="text-blue-600 text-2xl">📊</span>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">作业提交记录</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            统一查看编程作业和理论作业的提交记录、成绩与教师评语，支持分页和“查看全部”，教师端可查看所有学生提交。
+          </p>
+          <router-link to="/my-submissions" class="text-blue-600 text-sm font-medium mt-3 inline-block hover:underline">
+            查看记录 →
+          </router-link>
+        </div>
+        <!-- 教学资料 -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-sm transition">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+            <span class="text-blue-600 text-2xl">📚</span>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">教学资料共享</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            教师可发布课件、参考资料（支持附件），学生可在线查看或下载，支持资料置顶和删除。
+          </p>
+          <router-link to="/teacher-materials" class="text-blue-600 text-sm font-medium mt-3 inline-block hover:underline">
+            浏览资料 →
+          </router-link>
+        </div>
+        <!-- 可视化演示 -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-sm transition">
+          <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+            <span class="text-blue-600 text-2xl">🔬</span>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">交互式可视化</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            嵌入 TensorFlow Playground 等工具，直观理解算法原理，帮助将抽象概念可视化。
+          </p>
+          <router-link to="/visualization" class="text-blue-600 text-sm font-medium mt-3 inline-block hover:underline">
+            体验可视化 →
+          </router-link>
         </div>
       </div>
     </section>
 
-    <!-- Course Outline -->
+    <!-- 课程大纲简表（保留但精简） -->
     <section class="mb-20">
       <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-          课程大纲
-        </h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">课程大纲</h2>
         <p class="text-gray-600 max-w-2xl mx-auto">
-          循序渐进的课程设计，帮助您从基础到进阶，全面掌握机器学习知识
+          从基础到进阶，系统化掌握机器学习核心知识
         </p>
       </div>
-      <div class="bg-white rounded-2xl shadow-md border border-gray-50 overflow-hidden">
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
         <div class="divide-y divide-gray-100">
-          <div class="p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-300">
-            <h3 class="text-base sm:text-lg font-semibold flex items-center">
-              <span
-                class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-sm text-sm sm:text-base"
-              >1</span>
-              机器学习基础
+          <div class="p-4 hover:bg-gray-50 transition-colors">
+            <h3 class="text-base font-semibold flex items-center">
+              <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 text-xs">1</span>
+              机器学习简介
             </h3>
-            <p class="text-gray-600 ml-11 sm:ml-14 mt-2">
-              介绍机器学习的基本概念、分类和应用场景，为后续学习奠定基础。
-            </p>
           </div>
-          <div class="p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-300">
-            <h3 class="text-base sm:text-lg font-semibold flex items-center">
-              <span
-                class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-sm text-sm sm:text-base"
-              >2</span>
+          <div class="p-4 hover:bg-gray-50 transition-colors">
+            <h3 class="text-base font-semibold flex items-center">
+              <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 text-xs">2</span>
               线性回归
             </h3>
-            <p class="text-gray-600 ml-11 sm:ml-14 mt-2">
-              学习线性回归算法的原理和实现，掌握基本的回归分析方法。
-            </p>
           </div>
-          <div class="p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-300">
-            <h3 class="text-base sm:text-lg font-semibold flex items-center">
-              <span
-                class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-sm text-sm sm:text-base"
-              >3</span>
-              分类算法
+          <div class="p-4 hover:bg-gray-50 transition-colors">
+            <h3 class="text-base font-semibold flex items-center">
+              <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 text-xs">3</span>
+              Logistic回归
             </h3>
-            <p class="text-gray-600 ml-11 sm:ml-14 mt-2">
-              了解逻辑回归、决策树等分类算法，掌握分类问题的解决方法。
-            </p>
           </div>
-          <div class="p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-300">
-            <h3 class="text-base sm:text-lg font-semibold flex items-center">
-              <span
-                class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-sm text-sm sm:text-base"
-              >4</span>
-              神经网络
+          <div class="p-4 hover:bg-gray-50 transition-colors">
+            <h3 class="text-base font-semibold flex items-center">
+              <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 text-xs">4</span>
+              SVM
             </h3>
-            <p class="text-gray-600 ml-11 sm:ml-14 mt-2">
-              探索神经网络的基本结构和工作原理，为深度学习学习做准备。
-            </p>
           </div>
-          <div class="p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-300">
-            <h3 class="text-base sm:text-lg font-semibold flex items-center">
-              <span
-                class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-sm text-sm sm:text-base"
-              >5</span>
-              深度学习
+          <div class="p-4 hover:bg-gray-50 transition-colors">
+            <h3 class="text-base font-semibold flex items-center">
+              <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center mr-3 text-xs">5</span>
+              生成式分类器
             </h3>
-            <p class="text-gray-600 ml-11 sm:ml-14 mt-2">
-              深入学习深度学习的高级概念和应用，掌握现代AI技术。
-            </p>
           </div>
+        </div>
+        <div class="p-4 text-center border-t border-gray-100">
+          <router-link to="/chapters" class="text-blue-600 text-sm font-medium hover:underline">查看完整大纲 →</router-link>
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section
-      class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-6 sm:p-12 text-center shadow-sm"
-    >
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-        准备好开始学习了吗？
-      </h2>
-      <p class="text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto">
-        加入我们的机器学习课程，开启您的AI之旅，探索人工智能的无限可能
+    <!-- 讨论区入口 / CTA -->
+    <section class="bg-gray-50 rounded-lg border border-gray-200 p-6 sm:p-10 text-center">
+      <h2 class="text-2xl font-bold mb-3">有疑问？参与讨论</h2>
+      <p class="text-gray-600 mb-6 max-w-lg mx-auto">
+        每节课下方集成 Giscus 评论系统，使用 GitHub 账号即可参与讨论，与老师和同学互动交流。
       </p>
       <router-link
         to="/chapters"
-        class="bg-black text-white px-6 sm:px-10 py-3 sm:py-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1 shadow-lg inline-block"
+        class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
       >
-        开始学习
+        开始学习并参与讨论
       </router-link>
     </section>
   </div>
 </template>
-
-<script setup>
-// Home component logic
-</script>
-
-<style scoped>
-/* Home component styles */
-</style>

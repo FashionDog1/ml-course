@@ -32,15 +32,15 @@
       <!-- Instructor Info -->
       <div class="bg-white rounded-lg shadow-md border border-gray-100 p-6 mb-8">
         <h2 class="text-2xl font-bold mb-4">
-          授课教师
+          网站作者
         </h2>
         <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
           <div class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center">
-            <span class="text-4xl">👨‍🏫</span>
+            <img class="w-32 h-32 rounded-full" src="/img/logo.jpg" alt="FashionDog" />
           </div>
           <div>
             <h3 class="text-xl font-semibold">
-              F教授
+              FashionDog
             </h3>
             <p class="text-gray-600 mb-2">
               计算机科学与技术

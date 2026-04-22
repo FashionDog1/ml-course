@@ -67,7 +67,7 @@ const handleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${window.location.origin}${window.location.pathname}`,
+        redirectTo: `${window.location.href}`,
       },
     });
     if (error) console.error('GitHub 登录出错:', error.message);

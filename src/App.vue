@@ -10,7 +10,6 @@
                 to="/"
                 class="flex items-center space-x-2"
               >
-                <span class="text-blue-600 text-2xl">🤖</span>
                 <span class="font-bold text-xl">机器学习课程</span>
               </router-link>
             </div>
