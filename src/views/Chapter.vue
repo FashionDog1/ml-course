@@ -814,6 +814,21 @@ async function loadChapter() {
       }
     }
 
+    // 章节ID到文件夹名称的映射
+    const chapterIdToFolderMap = {
+      introduction: '01-introduction',
+      'linear-regression': '02-linear-regression',
+      'logistic-regression': '03-logistic-regression',
+      svm: '04-svm',
+      'generative-classifiers': '05-generative-classifiers',
+      'decision-trees': '06-decision-trees',
+      'ensemble-learning': '07-ensemble-learning',
+      'neural-network-structures': '08-neural-network-structures',
+      'deep-learning-training': '09-deep-learning-training',
+      'dimensionality-reduction': '10-dimensionality-reduction',
+      clustering: '11-clustering'
+    };
+
     // 使用import.meta.glob加载Markdown文件
     const markdownFiles = import.meta.glob('../chapters/**/*.md', {
       query: '?raw',
@@ -826,13 +841,13 @@ async function loadChapter() {
       // 需要找到正确的二级标题文件夹
       const chapter = chaptersData[currentChapterIndex.value];
       let subchapterFolder = '';
+      const chapterFolder = chapterIdToFolderMap[chapterId.value] || chapterId.value;
 
       if (chapter) {
         // 查找二级标题对应的新文件夹名称
         for (const subchapter of chapter.subchapters) {
           if (subchapter.id === subchapterId.value) {
             // 构建二级标题文件夹名称：章节号.序号-标题ID
-            chapter.id.match(/^\\d+/) || [''];
             const subchapterMatch = subchapter.title.match(/^(\\d+\\.\\d+)/);
             if (subchapterMatch) {
               subchapterFolder = `${subchapterMatch[1]}-${subchapter.id}`;
@@ -859,13 +874,14 @@ async function loadChapter() {
       }
 
       if (subchapterFolder) {
-        filePath = `../chapters/${chapterId.value}/${subchapterFolder}/${subchapterId.value}.md`;
+        filePath = `../chapters/${chapterFolder}/${subchapterFolder}/${subchapterId.value}.md`;
       } else {
         // 尝试直接在章节文件夹下查找（向后兼容）
-        filePath = `../chapters/${chapterId.value}/${subchapterId.value}.md`;
+        filePath = `../chapters/${chapterFolder}/${subchapterId.value}.md`;
       }
     } else {
-      filePath = `../chapters/${chapterId.value}.md`;
+      const chapterFolder = chapterIdToFolderMap[chapterId.value] || chapterId.value;
+      filePath = `../chapters/${chapterFolder}.md`;
     }
 
     if (markdownFiles[filePath]) {

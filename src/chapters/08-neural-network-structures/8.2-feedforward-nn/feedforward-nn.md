@@ -20,5 +20,4 @@ h_i^{(l)} = \sigma(a_i^{(l)}).
 \mathbf{h}^{(l)} = \sigma(\mathbf{a}^{(l)}) = \sigma(\mathbf{W}^{(l)} \mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}).
 \]
 
-&emsp;&emsp;为了书写简洁，记 $ \mathbf{h}^{(l)} = \sigma(\mathbf{a}^{(l)}) = [\sigma(a_1^{(l)}), \dots, \sigma(a_{N_l}^{(l)})]^{\mathrm{T}} $。因此神经网络内部实际上就是矩阵计算。
-<p style="text-align:center;color:green;">**[神经网络可视化](https://playground.tensorflow.org/)**</p>
+&emsp;&emsp;为了书写简洁，记 $ \mathbf{h}^{(l)} = \sigma(\mathbf{a}^{(l)}) = [\sigma(a_1^{(l)}), \dots, \sigma(a_{N_l}^{(l)})]^{\mathrm{T}} $。因此神经网络内部实际上就是矩阵计算。<p style="text-align:center;color:green;">**[神经网络可视化](https://playground.tensorflow.org/)**</p>

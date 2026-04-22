@@ -33,8 +33,7 @@
   $$
   \mu\_k = \frac{\sum\_{i=1}^N r\_{i,k} x\_i}{\sum\_{i=1}^N r\_{i,k}}；
   $$
-  &emsp;&emsp;直到簇不发生变化或达到最大迭代次数。
-  <p style="text-align:center;color:green;">**[k-means算法可视化（naftaliharris网站）](https://www.naftaliharris.com/blog/visualizing-k-means-clustering/)**</p>
+  &emsp;&emsp;直到簇不发生变化或达到最大迭代次数。<p style="text-align:center;color:green;">**[k-means算法可视化（naftaliharris网站）](https://www.naftaliharris.com/blog/visualizing-k-means-clustering/)**</p>
 
 <div style="margin: 10px 0 10px 20px; text-align: center;">
   <iframe src="/ml-course/k-means/k-means.html" width="820" height="535" frameborder="0" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
