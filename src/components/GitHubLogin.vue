@@ -64,14 +64,14 @@ onMounted(() => {
  * @returns {Promise<void>}
  */
 const handleLogin = async () => {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'github',
-    options: {
-      redirectTo: `${window.location.origin}`,
-    },
-  });
-  if (error) console.error('GitHub 登录出错:', error.message);
-};
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: `${window.location.origin}${window.location.pathname}`,
+      },
+    });
+    if (error) console.error('GitHub 登录出错:', error.message);
+  };
 
 /**
  * 处理用户退出登录
