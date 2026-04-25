@@ -121,7 +121,7 @@
                 {{ item.description }}
               </p>
               <p class="text-xs text-gray-400 mt-2">
-                发布于 {{ formatDate(item.created_at) }}
+                <span class="font-bold">{{ item.user_profiles?.name}}</span> 发布于 {{ formatDate(item.created_at) }}
               </p>
               <a
                 v-if="item.attachment_url"
@@ -311,9 +311,9 @@ function generateSafeFileName(originalName) {
 async function uploadFile(file) {
   try {
     const safeFileName = generateSafeFileName(file.name);
-    const { data, error } = await supabase.storage.from('assignments').upload(safeFileName, file);
+    const { data, error } = await supabase.storage.from('materials').upload(safeFileName, file);
     if (error) throw error;
-    const { data: urlData } = supabase.storage.from('assignments').getPublicUrl(data.path);
+    const { data: urlData } = supabase.storage.from('materials').getPublicUrl(data.path);
     return urlData.publicUrl;
   } catch (error) {
     console.error('文件上传失败:', error);
@@ -349,7 +349,7 @@ const fetchMaterials = async () => {
   try {
     const { data, error } = await supabase
       .from('teacher_materials')
-      .select('*')
+      .select('*, user_profiles(name)')
       .order('created_at', { ascending: false });
 
     if (error) throw error;

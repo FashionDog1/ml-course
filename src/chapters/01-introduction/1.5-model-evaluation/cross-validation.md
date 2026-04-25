@@ -16,15 +16,14 @@ $$
 
 &emsp;&emsp;另外，当找到最佳超参数后，还需要用全体训练数据再次训练模型，这样，这个模型才是最终对测试集做预测的模型。
 
-&emsp;&emsp;在与时间有关的应用中，验证集最好按照时间拆分。例如，评估的时候选取一个时间点，用在这个时间点之前的数据做训练，在这个时间点之后的数据做预测。这样更接近真实应用场景中我们根据历史数据预测未来的情况。
-<p style="text-align:center;color:green;">**[K折交叉验证可视化（interactive-ml网站）](https://www.interactive-ml.com/k-fold-cross-validation.html)**</p>
+&emsp;&emsp;在与时间有关的应用中，验证集最好按照时间拆分。例如，评估的时候选取一个时间点，用在这个时间点之前的数据做训练，在这个时间点之后的数据做预测。这样更接近真实应用场景中我们根据历史数据预测未来的情况。<p style="text-align:center;color:green;">**[K折交叉验证可视化（interactive-ml网站）](https://www.interactive-ml.com/k-fold-cross-validation.html)**</p>
 
 ## 例1-4：在鸢尾花分类数据集上寻找最佳的K近邻分类模型超参数
 
 &emsp;&emsp;K近邻模型是机器学习中最基本的分类算法之一。KNN模型计算测试样本和每个训练样本之间的距离，记录离其最近的 $ K $ 个邻居，并用这 $ K $ 个邻居的标签来预测样本的分类。KNN模型也可以用于回归问题，唯一的区别是使用最近邻的平均值，而不是从最近邻获得。
 
 <div style="margin: 10px 0 10px 20px; text-align: center;">
-  <iframe src="/ml-course/knn.html" width="800" height="790" frameborder="0" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
+  <iframe src="/ml-course/knn.html" width="100%" height="800" frameborder="0" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
 </div>
 
 &emsp;&emsp;在KNN模型中，$ K $ 是一个很重要的参数。$ K $ 越大，决策边界越平滑，但过于平滑的决策边界可能和问题的复杂度不匹配。$ K $ 的选择通过模型在验证集中的性能比较来实现。

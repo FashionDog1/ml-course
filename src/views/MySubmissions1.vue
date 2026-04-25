@@ -215,7 +215,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-700">学生</label>
             <p class="text-gray-900">
-              {{ selectedSubmission?.name }} ({{ selectedSubmission?.student_id }})
+              {{ selectedSubmission?.student?.name || selectedSubmission?.name }} ({{ selectedSubmission?.student?.student_id || selectedSubmission?.student_id }})
             </p>
           </div>
           <div>

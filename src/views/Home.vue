@@ -2,7 +2,6 @@
   <div class="container mx-auto px-4 py-12">
     <!-- Hero 区域 -->
     <section class="bg-blue-500 text-white rounded-xl p-6 sm:p-12 mb-16 shadow-sm relative overflow-hidden">
-      <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('img/hero.png');"></div>
       <div class="max-w-4xl mx-auto text-center">
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 tracking-tight">
           机器学习课程

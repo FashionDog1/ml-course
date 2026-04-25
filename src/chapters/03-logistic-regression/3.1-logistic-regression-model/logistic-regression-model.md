@@ -53,5 +53,5 @@ $$
 是 $\boldsymbol{x}$ 的线性组合。
 
 <div style="margin: 10px 0 10px 20px; text-align: center;">
-  <iframe src="/ml-course/Logistic-Regression/Logistic-Regression.html" width="800" height="525" frameborder="0" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
+  <iframe src="/ml-course/Logistic-Regression/Logistic-Regression.html" width="100%" height="525" frameborder="0" style="border: 1px solid #ddd; border-radius: 4px;"></iframe>
 </div>
